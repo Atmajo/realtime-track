@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  return "Hello Tracker";
 });
 
 app.get("/track", (req, res) => {
