@@ -13,20 +13,23 @@ const io = socket(server);
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
-io.on("connection", (socket) => {
-  console.log("New connection");
-  socket.on("send-location", (coords) => {
-    console.log(coords);
-    io.emit("receive-location", { id: socket.id, ...coords });
-  });
-
-  socket.on("disconnect", () => {
-    io.emit("user-disconnected", socket.id);
-  });
+app.get("/", (req, res) => {
+  res.send("Hello World");
 });
 
-app.get("/", (req, res) => {
+app.get("/coords", (req, res) => {
   res.send("Hello Tracker");
+  io.on("connection", (socket) => {
+    socket.on("send-location", (coords) => {
+      io.emit("receive-location", { id: socket.id, ...coords });
+      res.send({ coords: coords });
+    });
+
+    socket.on("disconnect", () => {
+      io.emit("user-disconnected", socket.id);
+      res.send({ id: socket.id });
+    });
+  });
 });
 
 app.get("/track", (req, res) => {
