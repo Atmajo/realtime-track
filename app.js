@@ -1,5 +1,7 @@
+const { configDotenv } = require("dotenv");
 const express = require("express");
 const app = express();
+configDotenv();
 
 const http = require("http");
 const path = require("path");
@@ -31,6 +33,6 @@ app.get("/track", (req, res) => {
   res.render("index");
 });
 
-server.listen(3000, () => {
-  console.log("Server is running on port 3000");
+server.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
