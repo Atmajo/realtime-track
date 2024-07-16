@@ -18,12 +18,16 @@ io.on("connection", (socket) => {
     io.emit("receive-location", { id: socket.id, ...coords });
   });
 
-    socket.on("disconnect", () => {
-        io.emit("user-disconnected", socket.id);
-    });
+  socket.on("disconnect", () => {
+    io.emit("user-disconnected", socket.id);
+  });
 });
 
 app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
+app.get("/track", (req, res) => {
   res.render("index");
 });
 
